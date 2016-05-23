@@ -71,7 +71,8 @@ enum vpfe_subdev_id {
 	VPFE_SUBDEV_MT9P031 = 4,
 	VPFE_SUBDEV_OV2643 = 5,
 	VPFE_SUBDEV_OV7690 = 6,
-	VPFE_SUBDEV_ADV7611 = 7
+	VPFE_SUBDEV_ADV7611 = 7,
+	VPFE_SUBDEV_ADV7604 = 8
 };
 
 struct vpfe_subdev_info {

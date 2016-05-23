@@ -130,6 +130,26 @@ static struct vpfe_subdev_info vpfe_sub_devs[] = {
                 },
         }
 #endif
+#ifdef CONFIG_VIDEO_ADV7604
+	{
+                //Clock for camera????
+                .module_name = "adv7604",
+                .is_camera = 1,
+                .grp_id = VPFE_SUBDEV_ADV7604,
+                .num_inputs = ARRAY_SIZE(adv7611_inputs),
+                .inputs = adv7611_inputs,
+                .ccdc_if_params = {
+			.if_type = VPFE_YCBCR_SYNC_8,
+                        .hdpol = VPFE_PINPOL_POSITIVE,
+                        .vdpol = VPFE_PINPOL_POSITIVE,
+                },
+                .board_info = {
+                        I2C_BOARD_INFO("adv7611", 0x4c),
+                        /* this is for PCLK rising edge */
+                        .platform_data = (void *)1,
+                },
+        }
+#endif
 };
 
 static struct vpfe_config vpfe_cfg = {
@@ -146,7 +166,8 @@ static void w1_enable_external_pullup(int enable);
 static inline int have_imager(void)
 {
 #if defined(CONFIG_SOC_CAMERA_OV2643) || \
-	defined(CONFIG_SOC_CAMERA_OV2643_MODULE) || defined (CONFIG_VIDEO_ADV7611)
+	defined(CONFIG_SOC_CAMERA_OV2643_MODULE) || \
+    defined (CONFIG_VIDEO_ADV7611) || defined (CONFIG_VIDEO_ADV7604)
 	return 1;
 #else
 	return 0;
@@ -708,7 +729,7 @@ static __init void dm365_evm_init(void)
 	if (camera_run) {
 #if defined(CONFIG_SOC_CAMERA_OV2643) || defined(CONFIG_SOC_CAMERA_OV2643_MODULE)
             dm365_camera_configure();
-#elif defined CONFIG_VIDEO_ADV7611
+#elif defined CONFIG_VIDEO_ADV7611 || defined CONFIG_VIDEO_ADV7604
             dm365_adv7611_configure();
 #endif
 	}
