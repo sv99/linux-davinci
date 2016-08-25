@@ -463,6 +463,10 @@ static int vpfe_config_ccdc_image_format(struct vpfe_device *vpfe_dev)
 
 	pix_fmt = vpfe_dev->fmt.fmt.pix.pixelformat;
 
+#ifdef CONFIG_V2R_DEBUG
+	v4l2_dbg(1, debug, &vpfe_dev->v4l2_dev,
+			"vpfe_config_ccdc_image_format: 0x%08x\n", pix_fmt);
+#endif
 	/* At CCDC we need to set pix format based on source. */
 	if (vpfe_dev->imp_chained) {
 		if (vpfe_dev->current_subdev->is_camera){
